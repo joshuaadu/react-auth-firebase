@@ -23,7 +23,8 @@ const AuthForm = () => {
   }, [emailInputRef, passwordInputRef, clearError]);
 
   useEffect(() => {
-    if (data && !isloading) {
+    console.log(data);
+    if (!error && !isloading) {
       clearForm();
     }
   }, [data, isloading, error, clearForm]);
@@ -58,7 +59,7 @@ const AuthForm = () => {
             ref={passwordInputRef}
           />
         </div>
-        {error && <div>{error}</div>}
+        {error && <div className={classes.error}>{error}</div>}
         <div className={classes.actions}>
           {isloading ? (
             <p>Loading...</p>

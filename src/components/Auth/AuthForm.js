@@ -27,10 +27,10 @@ const AuthForm = () => {
   }, [emailInputRef, passwordInputRef, clearError]);
 
   useEffect(() => {
-    console.log(data);
+    console.log(data?.idToken);
     if (data) {
-      navigate("/profile");
       AuthCtx.login(data.idToken);
+      navigate("/profile");
     }
     // if (!error && !isloading) {
     //   clearForm();
@@ -46,10 +46,11 @@ const AuthForm = () => {
     event.preventDefault();
     const userInfo = {
       email: emailInputRef.current.value,
-      password: passwordInputRef.current.value
+      password: passwordInputRef.current.value,
+      isLogin: isLogin
     };
     console.log(userInfo);
-    requestAuth(userInfo, isLogin);
+    requestAuth(userInfo);
   };
   return (
     <section className={classes.auth}>

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/use-auth";
+import AuthContext from "../../store/auth-context";
 
 import classes from "./AuthForm.module.css";
 
@@ -8,7 +9,8 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const AuthCtx = useContext(AuthContext);
 
   const {
     isloading,
@@ -26,13 +28,15 @@ const AuthForm = () => {
 
   useEffect(() => {
     console.log(data);
-    // if (data) {
-    //   navigate("/profile");
-    // }
+    if (data) {
+      navigate("/profile");
+      AuthCtx.login(data.idToken);
+    }
     // if (!error && !isloading) {
     //   clearForm();
     // }
-  }, [data, isloading, error, clearForm]);
+  }, [AuthCtx, data, navigate]);
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
     clearForm();

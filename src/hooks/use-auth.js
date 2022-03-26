@@ -36,6 +36,6 @@ const useAuth = () => {
     }
     setIsLoading(false);
   }, []);
-  return { isloading, data, error, requestAuth };
+  return { isloading, data, error, setError, requestAuth };
 };
 export default useAuth;

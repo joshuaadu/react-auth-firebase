@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useAuth from "../../hooks/use-auth";
 
 import classes from "./AuthForm.module.css";
@@ -8,16 +8,28 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const { isloading, data, error, requestAuth } = useAuth();
+  const {
+    isloading,
+    data,
+    error,
+    setError: clearError,
+    requestAuth
+  } = useAuth();
+
+  const clearForm = useCallback(() => {
+    emailInputRef.current.value = "";
+    passwordInputRef.current.value = "";
+    clearError(null);
+  }, [emailInputRef, passwordInputRef, clearError]);
 
   useEffect(() => {
-    console.log("isLoading: ", isloading);
-    console.log("data: ", data);
-    console.log("error: ", error);
-  }, [data, isloading, error]);
-
+    if (data && !isloading) {
+      clearForm();
+    }
+  }, [data, isloading, error, clearForm]);
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
+    clearForm();
   };
 
   const submitFormHandler = (event) => {
@@ -46,8 +58,13 @@ const AuthForm = () => {
             ref={passwordInputRef}
           />
         </div>
+        {error && <div>{error}</div>}
         <div className={classes.actions}>
-          <button>{isLogin ? "Login" : "Create Account"}</button>
+          {isloading ? (
+            <p>Loading...</p>
+          ) : (
+            <button>{isLogin ? "Login" : "Create Account"}</button>
+          )}
           <button
             type="button"
             className={classes.toggle}

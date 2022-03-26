@@ -30,11 +30,12 @@ const AuthForm = () => {
     console.log(data?.idToken);
     if (data) {
       AuthCtx.login(data.idToken);
-      navigate("/profile");
+      navigate("/", { replace: true });
     }
     // if (!error && !isloading) {
     //   clearForm();
     // }
+    return () => {};
   }, [AuthCtx, data, navigate]);
 
   const switchAuthModeHandler = () => {

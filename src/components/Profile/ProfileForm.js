@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/use-auth";
 import AuthContext from "../../store/auth-context";
 import classes from "./ProfileForm.module.css";
@@ -7,12 +8,17 @@ const ProfileForm = () => {
   const newPasswordRef = useRef();
   const AuthCtx = useContext(AuthContext);
   const { isloading, data, error, requestAuth } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("passward changed: ", data);
     console.log("passward change error: ", error);
     console.log("idToken1 ", AuthCtx.token);
-  }, [data, error, AuthCtx]);
+    if (data) {
+      navigate("/", { replace: true });
+    }
+    return () => {};
+  }, [data, error, AuthCtx, navigate]);
 
   const submitHandler = (event) => {
     event.preventDefault();

@@ -23,6 +23,7 @@ const retrieveStoredToken = () => {
   const storedExpirationDate = localStorage.getItem("expirationTime");
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
+  // 1m would be 600000 milliseconds - 3600 milliseconds are 3.6s
   if (remainingTime <= 3600) {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");

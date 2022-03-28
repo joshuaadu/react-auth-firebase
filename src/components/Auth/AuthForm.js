@@ -27,9 +27,12 @@ const AuthForm = () => {
   }, [emailInputRef, passwordInputRef, clearError]);
 
   useEffect(() => {
-    console.log(data?.idToken);
+    // console.log(data?.idToken);
     if (data) {
-      AuthCtx.login(data.idToken, data.expiresIn);
+      const expirationTime = new Date(
+        new Date().getTime() + data.expiresIn * 1000
+      );
+      AuthCtx.login(data.idToken, expirationTime.toISOString());
       navigate("/", { replace: true });
     }
     // if (!error && !isloading) {

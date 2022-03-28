@@ -29,7 +29,7 @@ const AuthForm = () => {
   useEffect(() => {
     console.log(data?.idToken);
     if (data) {
-      AuthCtx.login(data.idToken);
+      AuthCtx.login(data.idToken, data.expiresIn);
       navigate("/", { replace: true });
     }
     // if (!error && !isloading) {
